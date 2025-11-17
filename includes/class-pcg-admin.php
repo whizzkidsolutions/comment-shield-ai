@@ -195,6 +195,7 @@ class PCG_Admin {
                name="<?php echo esc_attr( PCG_Plugin::OPTION_SETTINGS ); ?>[api_key]"
                value="<?php echo esc_attr( $settings['api_key'] ); ?>"
                class="regular-text" />
+        <p class="description"><?php esc_html_e( 'For instructions to get an API Key, visit: https://support.perspectiveapi.com/s/docs-enable-the-api', PCG_TEXTDOMAIN ); ?></p>
         <?php
     }
 
