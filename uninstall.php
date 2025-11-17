@@ -4,7 +4,7 @@
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-    exit;
+	exit;
 }
 
 // Remove plugin settings.
@@ -15,8 +15,8 @@ global $wpdb;
 $meta_key = '_pcg_toxicity_score';
 
 $wpdb->query(
-    $wpdb->prepare(
-        "DELETE FROM {$wpdb->commentmeta} WHERE meta_key = %s",
-        $meta_key
-    )
+	$wpdb->prepare(
+		"DELETE FROM {$wpdb->commentmeta} WHERE meta_key = %s",
+		$meta_key
+	)
 );

@@ -9,7 +9,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 define( 'PCG_VERSION', '1.0.0' );
@@ -27,22 +27,20 @@ require_once PCG_PLUGIN_DIR . 'includes/class-pcg-notifications.php';
 /**
  * Load plugin text domain.
  */
-function pcg_load_textdomain(): void
-{
-    load_plugin_textdomain(
-        PCG_TEXTDOMAIN,
-        false,
-        dirname( PCG_PLUGIN_BASENAME ) . '/languages'
-    );
+function pcg_load_textdomain(): void {
+	load_plugin_textdomain(
+		PCG_TEXTDOMAIN,
+		false,
+		dirname( PCG_PLUGIN_BASENAME ) . '/languages'
+	);
 }
 add_action( 'plugins_loaded', 'pcg_load_textdomain' );
 
 /**
  * Bootstrap plugin instance.
  */
-function pcg_plugins_loaded(): void
-{
-    PCG_Plugin::instance();
+function pcg_plugins_loaded(): void {
+	PCG_Plugin::instance();
 }
 add_action( 'plugins_loaded', 'pcg_plugins_loaded' );
 
