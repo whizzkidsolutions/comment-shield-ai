@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Comment Shield AI 1.0.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: comment-shield-ai.php
+msgid "Settings"
+msgstr "Ajustes"
+
+#: includes/class-pcg-admin.php
+msgid "Comment Shield AI"
+msgstr "Comment Shield AI"
+
+#: includes/class-pcg-admin.php
+msgid "Perspective API settings"
+msgstr "Ajustes de la API Perspective"
+
+#: includes/class-pcg-admin.php
+msgid "Perspective API key"
+msgstr "Clave de API de Perspective"
+
+#: includes/class-pcg-admin.php
+msgid "Toxicity threshold for spam"
+msgstr "Umbral de toxicidad para marcar como spam"
+
+#: includes/class-pcg-admin.php
+msgid "Auto-approve below score"
+msgstr "Aprobar automáticamente por debajo de esta puntuación"
+
+#: includes/class-pcg-admin.php
+msgid "Comments per cron run"
+msgstr "Comentarios por ejecución de cron"
+
+#: includes/class-pcg-admin.php
+msgid "Languages (comma separated)"
+msgstr "Idiomas (separados por comas)"
+
+#: includes/class-pcg-admin.php
+msgid "Enable error logging"
+msgstr "Activar registro de errores"
+
+#: includes/class-pcg-admin.php
+msgid "Score equal or above this value will be marked as spam."
+msgstr "Las puntuaciones iguales o superiores a este valor se marcarán como spam."
+
+#: includes/class-pcg-admin.php
+msgid "Score equal or below this value will be auto-approved."
+msgstr "Las puntuaciones iguales o inferiores a este valor se aprobarán automáticamente."
+
+#: includes/class-pcg-admin.php
+msgid "For example: en, nl, es"
+msgstr "Por ejemplo: en, nl, es"
+
+#: includes/class-pcg-admin.php
+msgid "Log Perspective API errors to error_log()."
+msgstr "Registrar errores de la API Perspective en error_log()."
+
+#: includes/class-pcg-admin.php
+msgid "Toxicity"
+msgstr "Toxicidad"
+
+#: includes/class-pcg-admin.php
+msgid "n/a"
+msgstr "n/d"
+
+#: includes/class-pcg-admin.php
+msgid "N/A"
+msgstr "N/D"
+
+#: includes/class-pcg-admin.php
+msgid "Toxicity score:"
+msgstr "Puntuación de toxicidad:"
+
+#: includes/class-pcg-admin.php
+msgid "Mark as approved (override AI)"
+msgstr "Marcar como aprobado (sobrescribir IA)"
+
+#: includes/class-pcg-admin.php
+msgid "Mark as spam (override AI)"
+msgstr "Marcar como spam (sobrescribir IA)"
+
+#: includes/class-pcg-admin.php
+msgid "Comment Shield AI – Perspective Spam Guard"
+msgstr "Comment Shield AI – Perspective Spam Guard"
+
+#: includes/class-pcg-admin.php
+msgid "Comments with status “Pending” are scanned periodically via WP-Cron. Depending on the toxicity score they are approved, marked as spam, or left in moderation."
+msgstr "Los comentarios con estado \"Pendiente\" se analizan periódicamente a través de WP-Cron. Dependiendo de la puntuación de toxicidad se aprueban, se marcan como spam o se dejan en moderación."

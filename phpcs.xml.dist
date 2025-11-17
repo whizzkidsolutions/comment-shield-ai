@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Comment Shield AI">
+    <description>PHPCS rules for Comment Shield AI plugin.</description>
+
+    <file>comment-shield-ai.php</file>
+    <file>includes/</file>
+    <file>uninstall.php</file>
+
+    <arg value="ps"/>
+
+    <rule ref="WordPress-Core"/>
+    <rule ref="WordPress-Docs"/>
+    <rule ref="WordPress-Extra"/>
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+</ruleset>
