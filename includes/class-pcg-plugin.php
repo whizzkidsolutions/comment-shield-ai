@@ -15,6 +15,11 @@ class PCG_Plugin {
     private static PCG_Plugin $instance;
 
     /**
+     * @var PCG_Notifications
+     */
+    public PCG_Notifications $notifications;
+
+    /**
      * @var PCG_Admin
      */
     public PCG_Admin $admin;
@@ -46,8 +51,10 @@ class PCG_Plugin {
      * Constructor.
      */
     private function __construct() {
-        $this->client = new PCG_Perspective_Client( $this );
-        $this->cron   = new PCG_Cron( $this );
+        $this->client        = new PCG_Perspective_Client( $this );
+        $this->cron          = new PCG_Cron( $this );
+        $this->notifications = new PCG_Notifications( $this );
+
 
         if ( is_admin() ) {
             $this->admin = new PCG_Admin( $this );
@@ -60,7 +67,8 @@ class PCG_Plugin {
     /**
      * Plugin activation hook.
      */
-    public static function activate() {
+    public static function activate(): void
+    {
         $plugin = self::instance();
 
         $defaults = array(
@@ -70,6 +78,8 @@ class PCG_Plugin {
             'batch_size'         => 20,
             'languages'          => array( 'en', 'nl' ),
             'enable_logging'     => false,
+            'notification_mode'       => 'none',
+            'notification_recipients' => '',
         );
 
         $current = get_option( self::OPTION_SETTINGS, array() );
@@ -117,6 +127,9 @@ class PCG_Plugin {
         $settings['threshold_spam']     = (float) $settings['threshold_spam'];
         $settings['auto_approve_below'] = (float) $settings['auto_approve_below'];
         $settings['batch_size']         = max( 1, (int) $settings['batch_size'] );
+        $settings['notification_mode']       = isset( $settings['notification_mode'] ) ? $settings['notification_mode'] : 'none';
+        $settings['notification_recipients'] = isset( $settings['notification_recipients'] ) ? (string) $settings['notification_recipients'] : '';
+
 
         if ( empty( $settings['languages'] ) || ! is_array( $settings['languages'] ) ) {
             $settings['languages'] = array( 'en', 'nl', 'es' );

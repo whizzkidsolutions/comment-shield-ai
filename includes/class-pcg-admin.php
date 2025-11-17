@@ -101,6 +101,22 @@ class PCG_Admin {
         );
 
         add_settings_field(
+            'pcg_notification_mode',
+            __( 'Notification frequency', PCG_TEXTDOMAIN ),
+            array( $this, 'field_notification_mode' ),
+            'pcg-settings',
+            'pcg_main_section'
+        );
+
+        add_settings_field(
+            'pcg_notification_recipients',
+            __( 'Notification recipients', PCG_TEXTDOMAIN ),
+            array( $this, 'field_notification_recipients' ),
+            'pcg-settings',
+            'pcg_main_section'
+        );
+
+        add_settings_field(
             'pcg_enable_logging',
             __( 'Enable error logging', PCG_TEXTDOMAIN ),
             array( $this, 'field_enable_logging' ),
@@ -154,6 +170,16 @@ class PCG_Admin {
             $output['languages'] = ! empty( $langs ) ? $langs : array( 'en', 'nl', 'es' );
         }
 
+        if ( isset( $input['notification_mode'] ) ) {
+            $valid = array( 'none', 'immediate', 'hourly', '12hours', 'daily', 'weekly' );
+            $mode  = $input['notification_mode'];
+            $output['notification_mode'] = in_array( $mode, $valid, true ) ? $mode : 'none';
+        }
+
+        if ( isset( $input['notification_recipients'] ) ) {
+            $output['notification_recipients'] = sanitize_text_field( $input['notification_recipients'] );
+        }
+
         $output['enable_logging'] = ! empty( $input['enable_logging'] );
 
         return $output;
@@ -162,7 +188,8 @@ class PCG_Admin {
     /**
      * Settings page HTML.
      */
-    public function settings_page_html() {
+    public function settings_page_html(): void
+    {
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
@@ -188,7 +215,8 @@ class PCG_Admin {
         <?php
     }
 
-    public function field_api_key() {
+    public function field_api_key(): void
+    {
         $settings = $this->plugin->get_settings();
         ?>
         <input type="text"
@@ -199,7 +227,8 @@ class PCG_Admin {
         <?php
     }
 
-    public function field_threshold_spam() {
+    public function field_threshold_spam(): void
+    {
         $settings = $this->plugin->get_settings();
         ?>
         <input type="number" step="0.01" min="0" max="1"
@@ -211,7 +240,8 @@ class PCG_Admin {
         <?php
     }
 
-    public function field_auto_approve_below() {
+    public function field_auto_approve_below(): void
+    {
         $settings = $this->plugin->get_settings();
         ?>
         <input type="number" step="0.01" min="0" max="1"
@@ -223,7 +253,8 @@ class PCG_Admin {
         <?php
     }
 
-    public function field_batch_size() {
+    public function field_batch_size(): void
+    {
         $settings = $this->plugin->get_settings();
         ?>
         <input type="number" min="1"
@@ -232,7 +263,8 @@ class PCG_Admin {
         <?php
     }
 
-    public function field_languages() {
+    public function field_languages(): void
+    {
         $settings = $this->plugin->get_settings();
         ?>
         <input type="text"
@@ -244,7 +276,51 @@ class PCG_Admin {
         <?php
     }
 
-    public function field_enable_logging() {
+    public function field_notification_mode(): void
+    {
+        $settings = $this->plugin->get_settings();
+        $mode     = $settings['notification_mode'] ?? 'none';
+
+        $options = array(
+            'none'      => __( 'No emails', PCG_TEXTDOMAIN ),
+            'immediate' => __( 'Immediately after each comment', PCG_TEXTDOMAIN ),
+            'hourly'    => __( 'Every hour', PCG_TEXTDOMAIN ),
+            '12hours'   => __( 'Every 12 hours', PCG_TEXTDOMAIN ),
+            'daily'     => __( 'Every 24 hours', PCG_TEXTDOMAIN ),
+            'weekly'    => __( 'Every week', PCG_TEXTDOMAIN ),
+        );
+        ?>
+        <select name="<?php echo esc_attr( PCG_Plugin::OPTION_SETTINGS ); ?>[notification_mode]">
+            <?php foreach ( $options as $value => $label ) : ?>
+                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $mode, $value ); ?>>
+                    <?php echo esc_html( $label ); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <p class="description">
+            <?php esc_html_e( 'Choose how often you receive a summary of pending and approved comments.', PCG_TEXTDOMAIN ); ?>
+        </p>
+        <?php
+    }
+
+    public function field_notification_recipients(): void
+    {
+        $settings   = $this->plugin->get_settings();
+        $recipients = $settings['notification_recipients'] ?? '';
+        ?>
+        <input type="text"
+               name="<?php echo esc_attr( PCG_Plugin::OPTION_SETTINGS ); ?>[notification_recipients]"
+               value="<?php echo esc_attr( $recipients ); ?>"
+               class="regular-text" />
+        <p class="description">
+            <?php esc_html_e( 'Comma-separated list of email addresses. Leave empty to use the site admin email.', PCG_TEXTDOMAIN ); ?>
+        </p>
+        <?php
+    }
+
+
+    public function field_enable_logging(): void
+    {
         $settings = $this->plugin->get_settings();
         ?>
         <label>
@@ -274,7 +350,8 @@ class PCG_Admin {
      * @param string $column Column name.
      * @param int $comment_id Comment ID.
      */
-    public function render_comment_column(string $column, int $comment_id ) {
+    public function render_comment_column(string $column, int $comment_id ): void
+    {
         if ( 'pcg_toxicity' !== $column ) {
             return;
         }
@@ -293,7 +370,8 @@ class PCG_Admin {
     /**
      * Add comment meta box.
      */
-    public function add_comment_metabox() {
+    public function add_comment_metabox(): void
+    {
         add_meta_box(
             'pcg_comment_info',
             __( 'Comment Shield AI', PCG_TEXTDOMAIN ),
@@ -309,7 +387,8 @@ class PCG_Admin {
      *
      * @param WP_Comment $comment Comment object.
      */
-    public function render_metabox( $comment ) {
+    public function render_metabox(WP_Comment $comment): void
+    {
         $score          = get_comment_meta( $comment->comment_ID, PCG_Plugin::META_SCORE, true );
         $score_display  = ( '' !== $score && null !== $score ) ? number_format( (float) $score, 2 ) : __( 'N/A', PCG_TEXTDOMAIN );
 
@@ -339,7 +418,8 @@ class PCG_Admin {
      *
      * @param int $comment_id Comment ID.
      */
-    public function save_comment_meta(int $comment_id ) {
+    public function save_comment_meta(int $comment_id ): void
+    {
         if ( ! isset( $_POST['pcg_comment_metabox_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pcg_comment_metabox_nonce'] ) ), 'pcg_comment_metabox' ) ) {
             return;
         }

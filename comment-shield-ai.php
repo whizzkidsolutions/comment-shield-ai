@@ -22,6 +22,7 @@ require_once PCG_PLUGIN_DIR . 'includes/class-pcg-plugin.php';
 require_once PCG_PLUGIN_DIR . 'includes/class-pcg-admin.php';
 require_once PCG_PLUGIN_DIR . 'includes/class-pcg-cron.php';
 require_once PCG_PLUGIN_DIR . 'includes/class-pcg-perspective-client.php';
+require_once PCG_PLUGIN_DIR . 'includes/class-pcg-notifications.php';
 
 /**
  * Load plugin text domain.
